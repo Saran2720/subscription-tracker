@@ -1,0 +1,19 @@
+{
+  "eslint.packageManager": "npm",
+  "eslint.nodePath": "${workspaceFolder}/node_modules",
+  "eslint.options": {
+    "overrideConfigFile": "${workspaceFolder}/eslint.config.js"
+  },
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "eslint.useFlatConfig": true,
+  "eslint.experimental.useFlatConfig": true,
+  "eslint.validate": ["javascript", "javascriptreact"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  }
+}
+

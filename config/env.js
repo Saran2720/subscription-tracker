@@ -1,0 +1,11 @@
+import { config } from 'dotenv';
+
+const NODE_ENV = process.env.NODE_ENV || 'development';
+
+// Try common dotenv conventions; missing files won't crash (dotenv just returns an error object)
+config({ path: `.env.${NODE_ENV}.local` });
+config({ path: `.env.${NODE_ENV}` });
+config();
+
+export const { PORT, DB_URI, JWT_SECRET, JWT_EXPIRES_IN } = process.env;
+export { NODE_ENV };
