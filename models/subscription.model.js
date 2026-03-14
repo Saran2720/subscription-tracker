@@ -15,23 +15,23 @@ const subscriptionSchema = new mongoose.Schema({
     },
     currency: {
         type: String,
-        enum: ['IND', 'USD', 'EUR'],
-        default: 'IND'
+        enum: ['INR', 'USD', 'EUR'],
+        default: 'INR'
     },
     frequency: {
         type: String,
+        required:true,
         enum: ['daily', 'weekly', 'monthly', 'yearly'],
     },
-    catergory: {
+    category: {
         type: String,
-        enum: ['moveie', 'sports', 'entertainment', 'lifestyle', 'tech', 'finance', 'politics', 'others'],
+        enum: ['movie', 'sports', 'entertainment', 'lifestyle', 'tech', 'finance', 'politics', 'others'],
         required: true,
     },
     payementMethod: {
         type: String,
         required: true,
         trim: true,
-
     },
     stauts: {
         type: String,
@@ -49,7 +49,6 @@ const subscriptionSchema = new mongoose.Schema({
 
     renewalDate: {
         type: Date,
-        required: true,
         validate: {
             validator: function (value) {
                 return value > this.startDate;
@@ -85,8 +84,6 @@ subscriptionSchema.pre('save', function (next) {
     if (this.renewalDate < new Date()) {
         this.stauts = 'expired';
     }
-
-    next();
 });
 
 const Subscription = mongoose.model('Subscription', subscriptionSchema);
