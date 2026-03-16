@@ -31,7 +31,9 @@ const authorize = async (req, res, next) => {
         //     })
         // }
 
-        req.user = verified;
+  
+        req.user = { userId: verified.userId };
+  
         next();
 
     } catch (error) {

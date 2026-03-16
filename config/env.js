@@ -7,5 +7,5 @@ config({ path: `.env.${NODE_ENV}.local` });
 config({ path: `.env.${NODE_ENV}` });
 config();
 
-export const { PORT, DB_URI, JWT_SECRET, JWT_EXPIRES_IN, ARCJET_KEY, ARCJET_ENV} = process.env;
-export {NODE_ENV};
+export const { PORT,SERVER_URL, DB_URI, JWT_SECRET, JWT_EXPIRES_IN, ARCJET_KEY, ARCJET_ENV, QSTASH_URL, QSTASH_TOKEN } = process.env;
+export { NODE_ENV };
