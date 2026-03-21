@@ -1,13 +1,14 @@
 import Subscription from "../models/subscription.model.js";
 import dayjs from "dayjs";
+import { sendReminderEmail } from "../utils/send-email.js";
 
 const sendReminder = async (context) => {
   console.log("Workflow triggered with payload:", context.requestPayload);
 
   const { subscriptionId } = context.requestPayload;
-    console.log("Fetching subscription...");
+  // console.log("Fetching subscription...");
   const subscription = await fetchSubscription(context, subscriptionId);
-   console.log("Subscription fetched:", subscription);
+  // console.log("Subscription fetched:", subscription);
 
   if (!subscription || subscription.status !== "active") {
     console.log("Subscription not active or not found — stopping");
@@ -15,9 +16,10 @@ const sendReminder = async (context) => {
   }
 
   const renewalDate = dayjs(subscription.renewalDate);
-  console.log("Renewal date:", subscription.renewalDate); 
+  // console.log("Renewal date:", subscription.renewalDate);
 
   //if already expired
+
   if (renewalDate.isBefore(dayjs())) {
     console.log(
       `Renewal date has passed for subscription ${subscriptionId}. Stopping workflow.`,
@@ -38,8 +40,8 @@ const sendReminder = async (context) => {
 
     // if reminder date already passed, skip it entirely
     if (reminderDate.isBefore(dayjs())) {
-      console.log(`Skipping ${daysBefore}-day reminder — date already passed`);
-      continue; // ✅ skip to next iteration
+      // console.log(`Skipping ${daysBefore}-day reminder — date already passed`);
+      continue; 
     }
 
     //if the remiderday is comming here afters means put to sleep
@@ -55,7 +57,11 @@ const sendReminder = async (context) => {
     );
 
     // send the email
-    await triggerReminder(context, `Reminder ${daysBefore} days before`);
+    await triggerReminder(
+      context,
+      `${daysBefore} days before reminder`,
+      subscription,
+    );
   }
 };
 
@@ -68,16 +74,23 @@ const fetchSubscription = async (context, subscriptionId) => {
   });
 };
 
+//putting into sleep
 const sleepUntilReminder = async (context, label, date) => {
   console.log(`Sleep until ${label} reminder at ${date}`);
   await context.sleepUntil(label, date.toDate());
 };
 
-const triggerReminder = async (context, label) => {
-  return await context.run(label, () => {
-    console.log(`triggering ${label} reminder`);
 
-    //sending email logic
+const triggerReminder = async (context, label, subscription) => {
+  return await context.run(label, async () => {
+    console.log(`triggering ${label}`);
+
+    //sending email
+    await sendReminderEmail({
+      to: subscription.user.email,
+      type: label,
+      subscription,
+    });
   });
 };
 
