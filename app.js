@@ -18,6 +18,11 @@ app.use(express.urlencoded({extended:false})); //used to parse data sent from HT
 app.use(cookieParser());// reads cookie from incomming req
 app.use(arcjectMiddleware)
 
+//health check route
+app.get('/api/v1/health', (req, res) => {
+    res.status(200).json({ success: true, message: 'Server is healthy' });
+});
+
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/subscriptions', subscriptionRouter);
