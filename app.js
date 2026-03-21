@@ -31,8 +31,7 @@ app.post("/api/v1/workflows/subscription/reminder", serve(sendReminder));
 app.use(errorMiddleWare);
 
 app.listen(PORT, async () => {
-  console.log(`server is running on http://localhost:${PORT}`);
-
+//   console.log(`server is running on http://localhost:${PORT}`);
   await connectToDatabase();
 });
 

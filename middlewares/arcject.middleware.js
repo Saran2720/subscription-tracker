@@ -3,7 +3,7 @@ import aj from "../config/arcject.js";
 
 const arcjectMiddleware = async (req, res, next) => {
 
-    if(req.path.startsWith('/api/v1/auth') || req.path.startsWith('/api/v1/health')){
+    if(req.path.startsWith('/api/v1/auth') || req.path.startsWith('/api/v1/health') ||  req.path.startsWith('/api/v1/workflows')){
         return next();
     }
 
