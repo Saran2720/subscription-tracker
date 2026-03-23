@@ -97,4 +97,17 @@ export const signIn = async (req, res, next) => {
   }
 };
 
-export const signOut = (req, res, next) => {};
+export const signOut = async (req, res, next) => {
+  try {
+    // Invalidate the token on the client side by sending an empty token or a message
+    res.status(200).json({
+      success: true,
+      message: "Sign out successful",
+      data: {
+        token: null, // or you can send a message like "Token invalidated"
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};

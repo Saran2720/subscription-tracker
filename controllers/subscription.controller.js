@@ -22,6 +22,8 @@ export const createSubscription = async (req, res, next) => {
       },
       retries: 0,
     });
+    console.log("Workflow triggered with run ID:", worflowRunId);
+    console.log("Triggering workflow at:", `${SERVER_URL}/api/v1/workflows/subscription/reminder`);
 
     res.status(201).json({ success: true, data: subscription, worflowRunId });
   } catch (error) {

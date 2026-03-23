@@ -14,7 +14,7 @@ const aj = arcjet({
       // Block all bots except the following
       allow: [
         "CATEGORY:SEARCH_ENGINE", // Google, Bing, etc
-        // "POSTMAN"
+        "POSTMAN"
         // "CATEGORY:MONITOR",
         // "CATEGORY:PREVIEW"
         // Uncomment to allow these other common bot categories

@@ -1,6 +1,6 @@
 import express from "express";
 import { PORT } from "./config/env.js";
-
+import cors from "cors";
 import userRouter from "./routes/user.routes.js";
 import subscriptionRouter from "./routes/subscription.routes.js";
 import authRouter from "./routes/auth.routes.js";
@@ -23,6 +23,13 @@ app.get("/api/v1/health", (req, res) => {
   res.status(200).json({ success: true, message: "Server is healthy" });
 });
 
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://your-frontend.onrender.com"],
+    credentials: true, 
+  }),
+);
+
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/subscriptions", subscriptionRouter);
@@ -31,7 +38,7 @@ app.post("/api/v1/workflows/subscription/reminder", serve(sendReminder));
 app.use(errorMiddleWare);
 
 app.listen(PORT, async () => {
-//   console.log(`server is running on http://localhost:${PORT}`);
+  //   console.log(`server is running on http://localhost:${PORT}`);
   await connectToDatabase();
 });
 
