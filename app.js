@@ -1,5 +1,5 @@
 import express from "express";
-import { PORT } from "./config/env.js";
+import { FRONTEND_URL, PORT } from "./config/env.js";
 import cors from "cors";
 import userRouter from "./routes/user.routes.js";
 import subscriptionRouter from "./routes/subscription.routes.js";
@@ -25,7 +25,7 @@ app.get("/api/v1/health", (req, res) => {
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://your-frontend.onrender.com"],
+    origin: [FRONTEND_URL,"http://localhost:5173"],
     credentials: true, 
   }),
 );
