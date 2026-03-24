@@ -12,6 +12,13 @@ import { serve } from "@upstash/workflow/express";
 import sendReminder from "./controllers/workFlow.controller.js";
 
 const app = express();
+app.use(
+  cors({
+    origin: [FRONTEND_URL,"http://localhost:5173"],
+    credentials: true, 
+  }),
+);
+
 app.set("trust proxy", true); // trust first proxy, needed for correct IP detection behind proxies/load balancers
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //used to parse data sent from HTML forms // convert into object
@@ -23,12 +30,6 @@ app.get("/api/v1/health", (req, res) => {
   res.status(200).json({ success: true, message: "Server is healthy" });
 });
 
-app.use(
-  cors({
-    origin: [FRONTEND_URL,"http://localhost:5173"],
-    credentials: true, 
-  }),
-);
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
